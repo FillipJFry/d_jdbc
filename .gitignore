@@ -1,7 +1,7 @@
 # Compiled class file
 *.class
 
-# Log file
+# Log files
 *.log
 
 # BlueJ files
@@ -30,3 +30,6 @@ target/
 
 # IntelliJ IDEA specific
 .idea/
+
+# Database files
+*.db
