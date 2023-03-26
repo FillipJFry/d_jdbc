@@ -1,9 +1,7 @@
 package com.goit.fry;
 
-import org.junit.jupiter.api.Test;
-
 import java.sql.DatabaseMetaData;
-
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseTest {

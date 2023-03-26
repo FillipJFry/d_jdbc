@@ -27,7 +27,7 @@ CREATE TABLE project(
  start_date DATE NOT NULL,
  finish_date DATE NOT NULL,
  CONSTRAINT proj_dates_valid CHECK (start_date <= finish_date),
- CONSTRAINT proj_duration CHECK (TIMESTAMPDIFF(MONTH, start_date, finish_date) BETWEEN 1 AND 99),
+ CONSTRAINT proj_duration CHECK (DATEDIFF(MONTH, start_date, finish_date) BETWEEN 1 AND 99),
  FOREIGN KEY(client_id) REFERENCES client(id));
 
 CREATE TABLE project_worker(

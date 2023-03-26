@@ -35,14 +35,14 @@ INSERT INTO project VALUES
  (9, 'Next generation text editor', @un, '1999-01-15', '2007-04-07'),
  (10, 'Starlink satelites firmware', @spacex, '2019-03-01', '2026-12-20');
 
-START TRANSACTION;
-CREATE UNIQUE INDEX worker_name ON worker(name);
+BEGIN TRANSACTION;
+CREATE UNIQUE INDEX worker_name_tmp_idx ON worker(name);
 
 /* Temporary tables won't work with foreign keys */
-CREATE TABLE proj_worker_name(
+CREATE TEMPORARY TABLE proj_worker_name(
  project_id INTEGER NOT NULL,
  worker_name TEXT(1000) NOT NULL,
- PRIMARY KEY(project_id, worker_name(10)),
+ PRIMARY KEY(project_id, worker_name),
  FOREIGN KEY(project_id) REFERENCES project(id));
 
 INSERT INTO proj_worker_name VALUES
@@ -68,5 +68,5 @@ INSERT INTO project_worker
  WHERE w.name IS NULL;
 
 DROP TABLE proj_worker_name;
-DROP INDEX worker_name ON worker;
+DROP INDEX worker_name_tmp_idx ON worker;
 COMMIT;

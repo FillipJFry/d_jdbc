@@ -1,44 +1,30 @@
 package com.goit.fry;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DatabasePopulateService {
 
+	private static final Logger logger = LogManager.getRootLogger();
+
 	public static void main(String[] args) {
 
-		ArrayList<String> ddl_queries = new ArrayList<>();
-		try (BufferedReader in = new BufferedReader(new FileReader("sql/populate_db.sql"))) {
+		SQLFile sql_file = new SQLFile(logger);
+		sql_file.addDMLUpdatePatterns();
+		sql_file.addPattern("SET @[a-zA-Z]* = ");
+		sql_file.addPattern("CREATE UNIQUE INDEX ");
+		sql_file.addPattern("CREATE TEMPORARY TABLE ");
+		sql_file.addPattern("DROP TABLE ");
+		sql_file.addPattern("DROP INDEX ");
 
-			SimpleSQLInterpreter interpreter = new SimpleSQLInterpreter(in);
-			interpreter.addPattern("DELETE FROM [^;];");
-			interpreter.addPattern("INSERT INTO [^;];");
-			interpreter.addPattern("SET @[a-zA-Z] = [^;];");
-
-			String query;
-			while ((query = interpreter.findNext()) != null) {
-				ddl_queries.add(query);
-			}
-		}
-		catch (IOException e) {
-
-			e.printStackTrace();
-			return;
-		}
-
-		try (Connection conn = Database.getInstance().getConnection()) {
-			try (Statement stmt = conn.createStatement()) {
-				for (String query : ddl_queries)
-					stmt.executeUpdate(query);
-			}
+		try {
+			List<String> ddl_commands = sql_file.loadMultipleCommands("sql/populate_db.sql");
+			sql_file.executeMultipleCommands(ddl_commands);
 		}
 		catch (Exception e) {
 
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 }

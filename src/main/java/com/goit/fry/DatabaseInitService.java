@@ -1,44 +1,25 @@
 package com.goit.fry;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DatabaseInitService {
 
+	private static final Logger logger = LogManager.getRootLogger();
+
 	public static void main(String[] args) {
 
-		ArrayList<String> ddl_queries = new ArrayList<>();
-		try (BufferedReader in = new BufferedReader(new FileReader("sql/init_db.sql"))) {
+		SQLFile sql_file = new SQLFile(logger);
+		sql_file.addDDLPatterns();
 
-			SimpleSQLInterpreter interpreter = new SimpleSQLInterpreter(in);
-			interpreter.addPattern("CREATE TABLE [^;];");
-			interpreter.addPattern("DROP TABLE [^;];");
-			interpreter.addPattern("ALTER TABLE [^;];");
-
-			String query;
-			while ((query = interpreter.findNext()) != null) {
-				ddl_queries.add(query);
-			}
-		}
-		catch (IOException e) {
-
-			e.printStackTrace();
-			return;
-		}
-
-		try (Connection conn = Database.getInstance().getConnection()) {
-			try (Statement stmt = conn.createStatement()) {
-				for (String query : ddl_queries)
-					stmt.executeUpdate(query);
-			}
+		try {
+			List<String> ddl_commands = sql_file.loadMultipleCommands("sql/init_db.sql");
+			sql_file.executeMultipleCommands(ddl_commands);
 		}
 		catch (Exception e) {
 
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 }
