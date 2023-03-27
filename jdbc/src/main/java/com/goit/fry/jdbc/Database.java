@@ -45,6 +45,13 @@ public class Database {
 	 */
 	static void reset() {
 
+		try {
+			if (instance != null && !instance.conn.isClosed())
+				instance.conn.close();
+		}
+		catch (SQLException e) {
+			logger.error(e);
+		}
 		instance = null;
 	}
 }

@@ -1,4 +1,6 @@
-package com.goit.fry.jdbc;
+package com.goit.fry.jdbc.ex;
+
+import com.goit.fry.jdbc.YoungestEldestWorkers;
 
 import java.sql.Date;
 import java.sql.ResultSet;

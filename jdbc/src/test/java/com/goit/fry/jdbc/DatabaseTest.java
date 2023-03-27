@@ -14,9 +14,11 @@ class DatabaseTest {
 		try {
 			assertDoesNotThrow(Database.getInstance()::getConnection);
 			assertDoesNotThrow(Database.getInstance().getConnection()::close);
-			Database.reset();
 		}
 		catch (Exception ignored) { }
+		finally {
+			Database.reset();
+		}
 	}
 
 	@Test
@@ -29,9 +31,11 @@ class DatabaseTest {
 			assertEquals(inst1, inst2);
 			assertDoesNotThrow(Database.getInstance()::getConnection);
 			assertDoesNotThrow(Database.getInstance().getConnection()::close);
-			Database.reset();
 		}
 		catch (Exception ignored) { }
+		finally {
+			Database.reset();
+		}
 	}
 
 	@Test
@@ -45,8 +49,10 @@ class DatabaseTest {
 
 			assertDoesNotThrow(Database.getInstance()::getConnection);
 			assertDoesNotThrow(Database.getInstance().getConnection()::close);
-			Database.reset();
 		}
 		catch (Exception ignored) { }
+		finally {
+			Database.reset();
+		}
 	}
 }

@@ -1,4 +1,4 @@
-package com.goit.fry.jdbc;
+package com.goit.fry.jdbc.ex;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.goit.fry.jdbc.Database;
 import org.apache.logging.log4j.Logger;
 
 public class SQLExecutionHelper {
@@ -16,7 +18,7 @@ public class SQLExecutionHelper {
 	private final SimpleSQLFileParser parser;
 	private final Logger logger;
 
-	SQLExecutionHelper(Logger logger) {
+	public SQLExecutionHelper(Logger logger) {
 
 		parser = new SimpleSQLFileParser();
 		this.logger = logger;

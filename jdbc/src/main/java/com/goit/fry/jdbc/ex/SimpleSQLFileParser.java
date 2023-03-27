@@ -1,4 +1,4 @@
-package com.goit.fry.jdbc;
+package com.goit.fry.jdbc.ex;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,7 +39,7 @@ public class SimpleSQLFileParser {
 		return isNew;
 	}
 
-	String findNext(BufferedReader reader) throws Exception {
+	public String findNext(BufferedReader reader) throws Exception {
 
 		Map.Entry<String, Pattern> line_n_pattern = findLineMatchingPattern(reader);
 		if (line_n_pattern == null) return null;

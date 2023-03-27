@@ -2,6 +2,8 @@ package com.goit.fry.jdbc;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
+
+import com.goit.fry.jdbc.ex.SimpleSQLFileParser;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -126,7 +128,6 @@ class SimpleSQLFileParserTest {
 
 		try (BufferedReader in = new BufferedReader(new StringReader(query))) {
 
-			query = query.replace("\n", " ");
 			assertThrows(Exception.class, () -> parser.findNext(in));
 		}
 		catch (Exception e) {
